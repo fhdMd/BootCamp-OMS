@@ -11,4 +11,9 @@ public class KafkaTopicConfig {
     public NewTopic userCreatedTopic(){
         return TopicBuilder.name("user.created").build();
     }
+
+    @Bean
+    public NewTopic legacyCreateUserTopic(){
+        return TopicBuilder.name("user.created.legacy").build();
+    }
 }

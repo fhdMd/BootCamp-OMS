@@ -7,6 +7,21 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
+  # Add this service to your docker-compose.yml
+  schema-registry:
+    image: confluentinc/cp-schema-registry:7.3.0
+    container_name: schema-registry
+    ports:
+      - "8085:8081" # Access Schema Registry on http://localhost:8085
+    depends_on:
+      - kafka
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka:29092'
+
+      # In the 'kafka' service, update the environment block to include this line:
+      # This tells Kafka where to find the Schema Registry.
+      KAFKA_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
   kafka:
     image: confluentinc/cp-kafka:7.3.0
     container_name: kafka
